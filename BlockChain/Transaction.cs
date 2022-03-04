@@ -2,7 +2,7 @@
 
 namespace BlockChain
 {
-    internal class Transaction
+    public class Transaction
     {
         public string sender { get; set; }
         public string recipient { get; set; }

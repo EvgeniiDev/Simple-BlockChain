@@ -5,11 +5,12 @@ namespace BlockChain
 {
     internal class BlockChain
     {
-        public LinkedList<Block> chain { get; }
+        public AutoCachedLinkedList<Block> chain { get; }
         private Block currentBlock;
+
         public BlockChain()
         {
-            chain = new LinkedList<Block>();
+            chain = new AutoCachedLinkedList<Block>();
             chain.AddLast(new Block(BlockType.Genesis, 0));
             var hash = chain.Last().GetHashCode();
             currentBlock = new(BlockType.Common, hash);

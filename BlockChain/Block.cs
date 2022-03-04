@@ -7,7 +7,7 @@ namespace BlockChain
     {
         public int PreviousHash { get; }
         public BlockType BlockType { get; }
-        public List<Transaction> transactions { get; }
+        public List<Transaction> transactions;
 
         public Block(BlockType blockType, int previousHash)
         {
