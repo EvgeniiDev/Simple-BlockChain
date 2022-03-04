@@ -7,7 +7,7 @@ namespace BlockChain
     {
         public int PreviousHash { get; }
         public BlockType BlockType { get; }
-        private List<Transaction> transactions;
+        public List<Transaction> transactions { get; }
 
         public Block(BlockType blockType, int previousHash)
         {
@@ -18,6 +18,8 @@ namespace BlockChain
 
         public void ChangeTransaction(int id, Transaction transaction)
         {
+            if(transactions.Count<=id)
+                throw new IndexOutOfRangeException();
             transactions[id] = transaction;
         }
 

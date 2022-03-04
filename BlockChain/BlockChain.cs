@@ -5,7 +5,7 @@ namespace BlockChain
 {
     internal class BlockChain
     {
-        LinkedList<Block> chain;
+        public LinkedList<Block> chain { get; }
         private Block currentBlock;
         public BlockChain()
         {
@@ -17,7 +17,7 @@ namespace BlockChain
 
         public void AddTransaction(Transaction transaction)
         {
-            if(currentBlock.Size >= 1024)
+            if(currentBlock.Size >= 4)
             {
                 chain.AddLast(currentBlock);
                 var hash = currentBlock.GetHashCode();
