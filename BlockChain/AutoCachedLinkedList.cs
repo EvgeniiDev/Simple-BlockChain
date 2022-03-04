@@ -9,7 +9,7 @@ namespace BlockChain
     internal class AutoCachedLinkedList<T>
     {
         private LinkedList<T> list = new ();
-        private static int minAmountOfElementsInMemory = 4;
+        private static int minAmountOfElementsInMemory = 1024;
         private static int maxAmountOfElementsInMemory = minAmountOfElementsInMemory * 2;
         private int totalElementsInCache = 0;
         private string localCacheFileName = Guid.NewGuid().ToString();

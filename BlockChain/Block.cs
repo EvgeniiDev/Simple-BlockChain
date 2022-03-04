@@ -7,27 +7,26 @@ namespace BlockChain
     {
         public int PreviousHash { get; }
         public BlockType BlockType { get; }
-        public List<Transaction> transactions;
+        public List<Transaction> Transactions;
+        public int Size { get => Transactions.Count; }
 
         public Block(BlockType blockType, int previousHash)
         {
             BlockType = blockType;
             PreviousHash = previousHash;
-            transactions = new();
+            Transactions = new();
         }
 
         public void ChangeTransaction(int id, Transaction transaction)
         {
-            if(transactions.Count<=id)
+            if(Transactions.Count<=id)
                 throw new IndexOutOfRangeException();
-            transactions[id] = transaction;
+            Transactions[id] = transaction;
         }
-
-        public int Size { get => transactions.Count;}
 
         internal void Add(Transaction transaction)
         {
-            transactions.Add(transaction);
+            Transactions.Add(transaction);
         }
 
         public override int GetHashCode()
@@ -38,7 +37,7 @@ namespace BlockChain
         private int GetHashOfTransactions()
         {
             int a = 0;
-            foreach (var transaction in transactions)
+            foreach (var transaction in Transactions)
                 a = HashCode.Combine(a, transaction.GetHashCode());
             return a;
         }
@@ -49,6 +48,4 @@ namespace BlockChain
         Genesis,
         Common,
     }
-
-
 }

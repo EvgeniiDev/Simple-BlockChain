@@ -18,7 +18,7 @@ namespace BlockChain
             chain.AddTransaction(new Transaction("1ivan", "1senya", 20));
             chain.AddTransaction(new Transaction("2ivan", "2senya", 20));
             chain.AddTransaction(new Transaction("3ivan", "3senya", 20));
-            for (var a = 0; a < 100000000; a++)
+            for (var a = 0; a < 1000000; a++)
             {
                 chain.AddTransaction(new Transaction(new Random().Next().ToString(), new Random().Next().ToString(), new Random().Next()));
             }
