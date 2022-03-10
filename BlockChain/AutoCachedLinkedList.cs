@@ -6,14 +6,18 @@ using System.Text.Json;
 
 namespace BlockChain
 {
-    internal class AutoCachedLinkedList<T>
+    internal class AutoCachedLinkedList<T> : LinkedList<T>
     {
-        private LinkedList<T> list = new ();
-        private static int minAmountOfElementsInMemory = 1024;
-        private static int maxAmountOfElementsInMemory = minAmountOfElementsInMemory * 2;
+        private LinkedList<T> list = new();
+        private int minAmountOfElementsInMemory = 1024;
+        private int maxAmountOfElementsInMemory = 2048;
         private int totalElementsInCache = 0;
         private string localCacheFileName = Guid.NewGuid().ToString();
-
+        public AutoCachedLinkedList(int minAmountOfElementsInMemory=1024, int maxAmountOfElementsInMemory=2048)
+        {
+            this.minAmountOfElementsInMemory = minAmountOfElementsInMemory;
+            this.maxAmountOfElementsInMemory = maxAmountOfElementsInMemory;
+        }
         internal void AddLast(T item)
         {
             list.AddLast(item);
