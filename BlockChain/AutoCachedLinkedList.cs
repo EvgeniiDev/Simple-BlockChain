@@ -18,7 +18,7 @@ namespace BlockChain
             this.minAmountOfElementsInMemory = minAmountOfElementsInMemory;
             this.maxAmountOfElementsInMemory = maxAmountOfElementsInMemory;
         }
-        internal void AddLast(T item)
+        internal new void AddLast(T item)
         {
             list.AddLast(item);
             if (list.Count > maxAmountOfElementsInMemory)
@@ -41,7 +41,7 @@ namespace BlockChain
             }
         }
 
-        internal T Last()
+        internal new T Last()
         {
             return list.Last.Value;
         }
@@ -53,7 +53,7 @@ namespace BlockChain
             return Import(localCacheFileName).Concat(list).Take(amount);
         }
 
-        internal T First()
+        internal new T First()
         {
             if (totalElementsInCache != 0)
                 return Import(localCacheFileName).First();
