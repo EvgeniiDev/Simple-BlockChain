@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace BlockChain
 {
-    internal class AutoCachedLinkedList<T> : LinkedList<T>
+    internal class AutoCachedLinkedList<T> : IEnumerable<T>
     {
         private LinkedList<T> list = new();
         private int minAmountOfElementsInMemory = 1024;
@@ -18,7 +18,8 @@ namespace BlockChain
             this.minAmountOfElementsInMemory = minAmountOfElementsInMemory;
             this.maxAmountOfElementsInMemory = maxAmountOfElementsInMemory;
         }
-        internal new void AddLast(T item)
+
+        internal void AddLast(T item)
         {
             list.AddLast(item);
             if (list.Count > maxAmountOfElementsInMemory)
@@ -27,7 +28,6 @@ namespace BlockChain
                 {
                     var cache = Import(localCacheFileName);
                     var newCache = cache.Concat(list.Take(maxAmountOfElementsInMemory - minAmountOfElementsInMemory));
-
                     Export(newCache, localCacheFileName);
                 }
                 else
@@ -41,48 +41,36 @@ namespace BlockChain
             }
         }
 
-        internal new T Last()
-        {
-            return list.Last.Value;
-        }
-
-        internal IEnumerable<T> Take(int amount)
-        {
-            if (amount <= totalElementsInCache)
-                return Import(localCacheFileName).Take(amount);
-            return Import(localCacheFileName).Concat(list).Take(amount);
-        }
-
-        internal new T First()
-        {
-            if (totalElementsInCache != 0)
-                return Import(localCacheFileName).First();
-            return list.First.Value;
-        }
-
-        internal IEnumerable<T> Skip(int amount)
-        {
-            if (amount >= totalElementsInCache)
-            {
-                return list.Skip(totalElementsInCache-amount);
-            }
-            return list.Concat(list).Skip(amount);
-        }
-
         static JsonSerializerOptions options = new JsonSerializerOptions
         {
             IncludeFields = true,
+            WriteIndented = true,
         };
 
         private IEnumerable<T> Import(string fileName)
         {
-            return JsonSerializer.Deserialize<LinkedList<T>>(File.ReadAllText(fileName), options);
+            var data = File.ReadAllText(fileName);
+            return JsonSerializer.Deserialize<LinkedList<T>>(data, options);
         }
 
         private void Export(IEnumerable<T> list, string fileName)
         {
             var jsonString = JsonSerializer.Serialize(list.ToList(), options);
             File.WriteAllText(fileName, jsonString);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            if(totalElementsInCache!=default)
+                foreach(var item in Import(localCacheFileName))
+                    yield return item;
+            foreach (var item in list)
+                yield return item;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

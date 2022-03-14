@@ -9,7 +9,7 @@ namespace BlockChain
 
         public BlockChain()
         {
-            chain = new AutoCachedLinkedList<Block>();
+            chain = new AutoCachedLinkedList<Block>(1,2);
             chain.AddLast(new Block(BlockType.Genesis, 0));
             var hash = chain.Last().GetHashCode();
             currentBlock = new(BlockType.Common, hash);
